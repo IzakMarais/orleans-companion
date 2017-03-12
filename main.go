@@ -12,13 +12,14 @@ func main() {
 	fs := http.FileServer(http.Dir("assets/"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	http.HandleFunc("/", renderTileCounts)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "static/playercount.html", 301)
+	})
+	http.HandleFunc("/setup", renderTileCounts)
 
 	http.ListenAndServe(":8080", nil)
 
 }
-
-var tmpl = template.Must(template.ParseFiles("index.html"))
 
 var tileLimits = []int{
 	24, //Grain
@@ -38,29 +39,35 @@ const (
 	removeTilesTwoPl   = 12
 )
 
-type tilesByPlayerCount struct {
-	PlayerCount  int
+type tileSetup struct {
+	PlayerCount  string
 	TilesUsed    []int
 	TilesRemoved []int
 }
 
 func renderTileCounts(w http.ResponseWriter, r *http.Request) {
+	//TODO:move this out later for performance. Don't need to parse on each request. Nice for rapid dev though
+	var tmpl = template.Must(template.ParseFiles("assets/setup.html"))
 
-	tilesUsedFourPl := calcTileNumbers(mapSpacesFourPl, tileLimits)
-	tilesRemovedFourPl := calcTileNumbers(removeTilesFourPl, subtract(tileLimits, tilesUsedFourPl))
-
-	tilesUsedThreePl := calcTileNumbers(mapSpacesThreePl, tileLimits)
-	tilesRemovedThreePl := calcTileNumbers(removeTilesThreePl, subtract(tileLimits, tilesUsedThreePl))
-
-	tilesUsedTwoPl := calcTileNumbers(mapSpacesTwoPl, tileLimits)
-	tilesRemovedTwoPl := calcTileNumbers(removeTilesTwoPl, subtract(tileLimits, tilesUsedTwoPl))
-
-	setupCount := []tilesByPlayerCount{
-		{4, tilesUsedFourPl, tilesRemovedFourPl},
-		{3, tilesUsedThreePl, tilesRemovedThreePl},
-		{2, tilesUsedTwoPl, tilesRemovedTwoPl},
+	playerCount := r.FormValue("playerCount")
+	var mapSpaces, removeTiles int
+	switch playerCount {
+	case "3":
+		mapSpaces = mapSpacesThreePl
+		removeTiles = removeTilesThreePl
+	case "2":
+		mapSpaces = mapSpacesTwoPl
+		removeTiles = removeTilesTwoPl
+	default:
+		playerCount = "4"
+		mapSpaces = mapSpacesFourPl
+		removeTiles = removeTilesFourPl
 	}
-	tmpl.Execute(w, struct{ PlayerCounts []tilesByPlayerCount }{setupCount})
+
+	tilesUsed := calcTileNumbers(mapSpaces, tileLimits)
+	tilesRemoved := calcTileNumbers(removeTiles, subtract(tileLimits, tilesUsed))
+
+	tmpl.Execute(w, tileSetup{playerCount, tilesUsed, tilesRemoved})
 }
 
 // a - b elementwise
