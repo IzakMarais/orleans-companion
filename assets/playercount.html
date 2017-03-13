@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/sticky-footer.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </head>
@@ -13,17 +14,28 @@
 <body>
 
    <div class="container-fluid">
-    <h2>Select player count</h2>
-    <h3>Orléans setup randomiser</h3>
+       <div class="row">    
+        <div class="col-sm-offset-2 col-sm-8">
+            <h2>Select player count</h2>
+            <h3>Orléans setup randomiser</h3>
+        </div>
+       </div>
     <div class="row"><div class="col-xs-12" style="height:50px;"></div></div>
     <div class="row">    
-        <div class="col-sm-offset-4 col-sm-4">
+        <div class="col-sm-offset-3 col-sm-6">
             <a href="/setup?playerCount=4" type="button" class="btn btn-primary btn-lg btn-block">4</a>
             <a href="/setup?playerCount=3" type="button" class="btn btn-primary btn-lg btn-block">3</a>
             <a href="/setup?playerCount=2" type="button" class="btn btn-primary btn-lg btn-block">2</a>
         </div>
     </div>
 </div>
+
+<footer class="footer">
+    <div class="container">
+    <a href="about.html" class="text-muted">About</a>
+    </div>
+</footer>
+
 
 </body>
 
