@@ -55,9 +55,13 @@ func renderTileCounts(w http.ResponseWriter, r *http.Request) {
 	case "3":
 		mapSpaces = mapSpacesThreePl
 		removeTiles = removeTilesThreePl
+		//TODO: Remove 2 each Farmer, Boatman, Craftsman Trader
+		//remove 3 each knight, scholar, monk
 	case "2":
 		mapSpaces = mapSpacesTwoPl
 		removeTiles = removeTilesTwoPl
+		//TODO: Remove 4 each Farmer, Boatman, Craftsman Trader
+		//remove 6 each knight, scholar, monk
 	default:
 		playerCount = "4"
 		mapSpaces = mapSpacesFourPl
