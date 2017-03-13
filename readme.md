@@ -11,3 +11,6 @@ The setup in Orléans normally requires
 * and the remaining tiles *sorted by type again* to form a supply.
 
 The setup helper aims to bypass this shuffling and resorting by calculating randomized setup numbers for selected and removed goods tiles.
+
+## Use
+The site is hosted at [orleans-companion.appspot.com](orleans-companion.appspot.com) on Google App engine.

@@ -6,6 +6,8 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
+
+	"google.golang.org/appengine"
 )
 
 func main() {
@@ -17,8 +19,8 @@ func main() {
 	})
 	http.HandleFunc("/setup", renderTileCounts)
 
-	http.ListenAndServe(":8080", nil)
-
+	appengine.Main()
+	//http.ListenAndServe(":8080", nil)
 }
 
 var tileLimits = []int{
