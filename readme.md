@@ -13,4 +13,4 @@ The setup in Orléans normally requires
 The setup helper aims to bypass this shuffling and resorting by calculating randomized setup numbers for selected and removed goods tiles.
 
 ## Use
-The site is hosted at [orleans-companion.appspot.com](orleans-companion.appspot.com) on Google App engine.
+The site is hosted at [orleans-companion.appspot.com](http://orleans-companion.appspot.com) on Google App engine.
