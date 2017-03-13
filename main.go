@@ -43,6 +43,7 @@ type tileSetup struct {
 	PlayerCount  string
 	TilesUsed    []int
 	TilesRemoved []int
+	Note         string
 }
 
 func renderTileCounts(w http.ResponseWriter, r *http.Request) {
@@ -51,17 +52,16 @@ func renderTileCounts(w http.ResponseWriter, r *http.Request) {
 
 	playerCount := r.FormValue("playerCount")
 	var mapSpaces, removeTiles int
+	var note string
 	switch playerCount {
 	case "3":
 		mapSpaces = mapSpacesThreePl
 		removeTiles = removeTilesThreePl
-		//TODO: Remove 2 each Farmer, Boatman, Craftsman Trader
-		//remove 3 each knight, scholar, monk
+		note = "Remove 2 each of Farmer, Boatman, Craftsman Trader. Remove 3 each of Knight, Scholar, Monk"
 	case "2":
 		mapSpaces = mapSpacesTwoPl
 		removeTiles = removeTilesTwoPl
-		//TODO: Remove 4 each Farmer, Boatman, Craftsman Trader
-		//remove 6 each knight, scholar, monk
+		note = "Remove 4 each of Farmer, Boatman, Craftsman Trader. Remove 6 each of Knight, Scholar, Monk"
 	default:
 		playerCount = "4"
 		mapSpaces = mapSpacesFourPl
@@ -71,7 +71,7 @@ func renderTileCounts(w http.ResponseWriter, r *http.Request) {
 	tilesUsed := calcTileNumbers(mapSpaces, tileLimits)
 	tilesRemoved := calcTileNumbers(removeTiles, subtract(tileLimits, tilesUsed))
 
-	tmpl.Execute(w, tileSetup{playerCount, tilesUsed, tilesRemoved})
+	tmpl.Execute(w, tileSetup{playerCount, tilesUsed, tilesRemoved, note})
 }
 
 // a - b elementwise
